@@ -1,0 +1,32 @@
+# Encrypted key doc
+#   https://docs.travis-ci.com/user/encryption-keys
+#
+# Encrypted key commands
+#   gem install travis
+#   travis pubkey
+#   travis encrypt DOCKER_PASSWORD=*********** --add
+sudo: required
+services:
+- docker
+env:
+  global:
+  - DOCKER_USERNAME=guillaumejacquenot
+  - secure: "W3IhztPcJfZpxBCrnZIAzTS5fR64C67Rhbu/kB86zKq+FbPHizUVlAX4bAgRNQsbPYoc/ZX6lFJ7r87ofpSbLiXUwgZRQZVy/PbU1IzTdVMfFz+twgRfrnQJP7hn5yGPetA2NZHRxmV789EaOnRaczOj5uAe8oHYERcWBY+2IlpdW1V4tVXBdlA9xR2sVriTXeYaMYFmS44magWtpCnFyL7H7pgNNkJPxc0Z8IBvAgFlYSy4XbeWlc7S+xfgv7SliF1mNioBzzaseGtnuQ7BqRzi/eKAHh48XFDtPKlib5YWgAGi4a8RnxQLzVjmsmeH2L9Aoai7MS7+vLYpm2a5Hml4CJz5farY176e4YSezntdCTBWj5K8pZuhmWChKBjJbW82j12QBD6sM/y/xZrWlhRjKc7C0ShiKCRNkCfBKsYhLSTpgf7VZFAZyXqSg44sXyBkSF/aEZqTVTbJtP7GbghYlutndp+0O6b85qsuzNCaGJMxj7Sf5JdqpfqeAHn66Kb/9bWyxmKxr60JSAt0d+ACG1Wf6nz1T2rOmHss8ZsLOYkftTBJbzVVJY5nEbupbSlN+AndJr35FmT8czrm24Zjz5KS1m8kPMG0pTpjfyrojjuEHfPIRLPimaBoKi/sBmJp70GMkgckujOnE3n2kY6ph6Fn+tw7J1S2imHM/Hs="
+
+before_install:
+- echo "Before install"
+before_script:
+- docker pull sirehna/base-image-win64-gccx-win32threads-ssc-xdyn || true
+script:
+- docker build --pull --cache-from sirehna/base-image-win64-gccx-win32threads-ssc-xdyn --tag sirehna/base-image-win64-gccx-win32threads-ssc-xdyn .
+after_script:
+- docker images
+after_success:
+- if [[ "$TRAVIS_BRANCH" == "master" ]];
+  then
+  docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+  docker push sirehna/base-image-win64-gccx-win32threads-ssc-xdyn ;
+  fi
+notifications:
+  email: true
+
