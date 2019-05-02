@@ -137,8 +137,12 @@ RUN git clone https://github.com/zeromq/cppzmq.git && \
     git checkout v4.2.2 && \
     mkdir build && \
     cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/libzmq .. && \
-    make -j 4 install && \
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/opt/libzmq \
+        -DZeroMQ_DIR:PATH=/opt/libzmq/share/cmake/ZeroMQ \
+        .. && \
+    make install && \
     cd .. && \
     cd .. && \
     rm -rf cppzmq
