@@ -100,6 +100,14 @@ RUN git clone https://github.com/google/protobuf.git protobuf_src && \
     cd .. && \
     rm -rf protobuf_src
 
+RUN cd / && \
+echo '\#!/bin/bash\n\
+/usr/bin/wine /opt/protobuf/bin/protoc.exe `echo $*`\n'\
+> /usr/bin/protoc && \
+sed -i 's/\\#/#/g' /usr/bin/protoc && \
+chmod 740 /usr/bin/protoc && \
+cat /usr/bin/protoc
+
 # libzmq
 # Test program needs to be linked to ws_32 library.
 # RUN find /usr/src/mxe/usr -name "*ws_32*" -type f && find /usr/src/mxe/usr -name "*wsock32*" -type f
@@ -234,12 +242,3 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.20.tar.gz 
 #    sed -i 's/^backend .*/backend : Agg/' `python -c'import matplotlib;print(matplotlib.matplotlib_fname())'`
 
 # ADD protoc /usr/bin/protoc
-
-RUN cd / && \
-echo '\#!/bin/bash\n\
-/usr/bin/wine /opt/protobuf/bin/protoc.exe `echo $*`\n\
-> /usr/bin/protoc && \
-sed -i 's/\\#/#/g' /usr/bin/protoc && \
-chmod 740 /usr/bin/protoc && \
-cat /usr/bin/protoc
-
