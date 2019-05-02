@@ -82,9 +82,8 @@ RUN wget https://sourceforge.net/projects/geographiclib/files/distrib/archive/Ge
     tar -xzf geographiclib.tgz --strip 1 -C /opt/geographiclib && \
     rm -rf geographiclib.tgz
 
-# Protobuf
-RUN git clone https://github.com/google/protobuf.git && \
-    cd protobuf && \
+RUN git clone https://github.com/google/protobuf.git protobuf_src && \
+    cd protobuf_src && \
     git checkout v3.0.0-beta-2 && \
     mkdir cmake_build && \
     cd cmake_build && \
@@ -99,8 +98,7 @@ RUN git clone https://github.com/google/protobuf.git && \
     make install && \
     cd .. && \
     cd .. && \
-    rm -rf protobuf
-
+    rm -rf protobuf_src
 
 # libzmq
 # Test program needs to be linked to ws_32 library.
