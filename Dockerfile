@@ -106,12 +106,18 @@ RUN git clone https://github.com/google/protobuf.git && \
 # Test program needs to be linked to ws_32 library.
 # RUN find /usr/src/mxe/usr -name "*ws_32*" -type f && find /usr/src/mxe/usr -name "*wsock32*" -type f
 # /usr/src/mxe/usr/x86_64-w64-mingw32.static/lib/libwsock32.a
-RUN git clone https://github.com/zeromq/libzmq.git && \
-    cd libzmq && \
+RUN git clone https://github.com/zeromq/libzmq.git libzmq_src && \
+    cd libzmq_src && \
     git checkout v4.2.2 && \
     mkdir build && \
     cd build && \
-    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/libzmq .. && \
+    cmake \
+        -DWITH_PERF_TOOL=OFF \
+        -DZMQ_BUILD_TESTS=OFF \
+        -DENABLE_CPACK=OFF \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/opt/libzmq \
+        .. && \
     make && \
     echo "if(NOT TARGET libzmq) # in case find_package is called multiple times" >> ZeroMQConfig.cmake && \
     echo "  add_library(libzmq SHARED IMPORTED)" >> ZeroMQConfig.cmake && \
@@ -128,12 +134,10 @@ RUN git clone https://github.com/zeromq/libzmq.git && \
     cat /opt/libzmq/share/cmake/ZeroMQ/ZeroMQConfig.cmake && \
     cd .. && \
     cd .. && \
-    rm -rf libzmq
+    rm -rf libzmq_src
 
-
-# cppzmq
-RUN git clone https://github.com/zeromq/cppzmq.git && \
-    cd cppzmq && \
+RUN git clone https://github.com/zeromq/cppzmq.git cppzmq_src && \
+    cd cppzmq_src && \
     git checkout v4.2.2 && \
     mkdir build && \
     cd build && \
@@ -145,7 +149,7 @@ RUN git clone https://github.com/zeromq/cppzmq.git && \
     make install && \
     cd .. && \
     cd .. && \
-    rm -rf cppzmq
+    rm -rf cppzmq_src
 
 RUN cd /opt && \
     git clone https://github.com/garrison/eigen3-hdf5 && \
