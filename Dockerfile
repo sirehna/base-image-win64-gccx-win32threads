@@ -163,7 +163,7 @@ RUN cd /opt && \
     git checkout 2c782414251e75a2de9b0441c349f5f18fe929a2
 
 # HDF5 with C/C++/Fortran support Version 1.8.20. Higher versions are incompatible with eigen-hdf5
-RUN wget https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-1.8/hdf5-1.8.21/src/hdf5-1.8.21.tar.gz -O hdf5_src.tar.gz && \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-1.8/hdf5-1.8.20/src/hdf5-1.8.20.tar.gz -O hdf5_src.tar.gz && \
     mkdir -p HDF5_SRC && \
     tar -xf hdf5_src.tar.gz --strip 1 -C HDF5_SRC && \
     cd HDF5_SRC && \
