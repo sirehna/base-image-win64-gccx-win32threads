@@ -105,14 +105,14 @@ echo '\#!/bin/bash\n\
 /usr/bin/wine /opt/protobuf/bin/protoc.exe `echo $*`\n'\
 > /usr/bin/protoc && \
 sed -i 's/\\#/#/g' /usr/bin/protoc && \
-chmod 740 /usr/bin/protoc && \
+chmod 755 /usr/bin/protoc && \
 cat /usr/bin/protoc && \
 cd / && \
 echo '\#!/bin/bash\n\
 /usr/bin/wine /opt/protobuf/bin/protoc.exe `echo $*` 2> /dev/null\n'\
 > /usr/bin/protoc_silent_error && \
 sed -i 's/\\#/#/g' /usr/bin/protoc_silent_error && \
-chmod 740 /usr/bin/protoc_silent_error && \
+chmod 755 /usr/bin/protoc_silent_error && \
 cat /usr/bin/protoc_silent_error
 
 # libzmq
