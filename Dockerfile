@@ -119,6 +119,9 @@ cat /usr/bin/protoc_silent_error
 # Test program needs to be linked to ws_32 library.
 # RUN find /usr/src/mxe/usr -name "*ws_32*" -type f && find /usr/src/mxe/usr -name "*wsock32*" -type f
 # /usr/src/mxe/usr/x86_64-w64-mingw32.static/lib/libwsock32.a
+#
+# Sed command below is used to patch CMake install files
+# (Replace lib/libzmq.dll with bin\libzmq.dll)
 RUN git clone https://github.com/zeromq/libzmq.git libzmq_src && \
     cd libzmq_src && \
     git checkout v4.2.2 && \
@@ -142,7 +145,6 @@ RUN git clone https://github.com/zeromq/libzmq.git libzmq_src && \
     echo "  set_target_properties(libzmq-static PROPERTIES IMPORTED_LOCATION \${\${PN}_STATIC_LIBRARY})" >> ZeroMQConfig.cmake && \
     echo "endif(NOT TARGET libzmq-static)" >> ZeroMQConfig.cmake && \
     make install && \
-    # Patch CMake install files (Replace lib/libzmq.dll with bin\libzmq.dll)
     sed -i 's/lib\/libzmq\.dll/bin\/libzmq\.dll/g' /opt/libzmq/share/cmake/ZeroMQ/ZeroMQConfig.cmake && \
     cat /opt/libzmq/share/cmake/ZeroMQ/ZeroMQConfig.cmake && \
     cd .. && \
