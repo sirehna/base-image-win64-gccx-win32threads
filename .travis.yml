@@ -19,10 +19,10 @@ before_install:
 - echo "Before install"
 
 before_script:
-- docker pull sirehna/base-image-win64-gccx-win32threads-ssc-xdyn || true
+- docker pull sirehna/base-image-win64-gccx-win32threads || true
 
 script:
-- docker build --pull --cache-from sirehna/base-image-win64-gccx-win32threads-ssc-xdyn --tag sirehna/base-image-win64-gccx-win32threads-ssc-xdyn .
+- docker build --pull --cache-from sirehna/base-image-win64-gccx-win32threads --tag sirehna/base-image-win64-gccx-win32threads .
 
 after_script:
 - docker images
@@ -31,7 +31,7 @@ after_success:
 - if [[ "$TRAVIS_BRANCH" == "master" ]];
   then
   docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-  docker push sirehna/base-image-win64-gccx-win32threads-ssc-xdyn ;
+  docker push sirehna/base-image-win64-gccx-win32threads ;
   fi
 notifications:
   email: true
